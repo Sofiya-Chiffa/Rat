@@ -1,5 +1,5 @@
 using System;
-
+ 
 public class Rat{
   public int numerator;
   public int denominator;
@@ -7,7 +7,10 @@ public class Rat{
   public Rat(int num, int denom){
     numerator = num;
     denominator = denom;
-    
+    if (denom == 0){
+      denominator = 1;
+    }
+    Simple_Something();
   }
 
   public Rat(int num): this (num, 1) {}
@@ -15,30 +18,60 @@ public class Rat{
   public Rat(): this (1, 1) {}
 
   public override string ToString(){
-    return $"{numerator}\n--\n{denominator}";
+    Simple_Something();
+    if (denominator == 1){
+      return $"{numerator}";
+    }
+    return $"{numerator}\n----\n{denominator}";
   }
 
   public double ToDouble(){
     return (double)numerator / denominator;
   }
-
-  public static Rat Simple_Something(){
-    int i = 2;
-    int den = denominator;
-    int num = numerator;
-    while (true){
-      if (i > denominator){
-        break;
-      }
-      if (den % i == 0 && num % i == 0){
-        den /= i;
-        num /= i;
-      }
-      else{
-        i += 1;
-      }
+  
+  public static int Evklid(int x, int y)
+        {
+            x = Math.Abs(x);
+            y = Math.Abs(y);
+            while (x * y != 0)
+            {
+                if (x > y) { x = x % y; }
+                else { y = y % x; }
+            }
+            return x + y;
+        }
+             
+  public void Simple_Something(){
+    int NOD = Evklid(numerator, denominator);
+    numerator /= NOD;
+    denominator /= NOD;
+    if (denominator < 0 && numerator < 0){
+      numerator *= -1;
+      denominator *= -1;
+    }
+    else if (denominator < 0){
+      numerator *= -1;
+      denominator *= -1;      
     }
   }
+  
+  public static Rat operator *(Rat X, int y){
+    Rat Y = new Rat(y);
+    int N, D;
+    N = X.numerator * Y.numerator;
+    D = X.denominator * Y.denominator;
+    Rat NewR;
+    NewR = new Rat(N, D);
+    return NewR;}
+
+  public static Rat operator *(int x, Rat Y){
+    Rat X = new Rat(x);
+    int N, D;
+    N = X.numerator * Y.numerator;
+    D = X.denominator * Y.denominator;
+    Rat NewR;
+    NewR = new Rat(N, D);
+    return NewR;}
   
   public static Rat operator *(Rat X, Rat Y){
     int N, D;
@@ -56,8 +89,46 @@ public class Rat{
     NewR = new Rat(N, D);
     return NewR;
   }
+     
+  public static Rat operator /(Rat X, int y){
+    Rat Y = new Rat(y);
+    int N, D;
+    N = X.numerator * Y.denominator;
+    D = X.denominator * Y.numerator;
+    Rat NewR;
+    NewR = new Rat(N, D);
+    return NewR;
+  }
+     
+  public static Rat operator /(int x, Rat Y){
+    Rat X = new Rat(x);
+    int N, D;
+    N = X.numerator * Y.denominator;
+    D = X.denominator * Y.numerator;
+    Rat NewR;
+    NewR = new Rat(N, D);
+    return NewR;
+  }
 
   public static Rat operator +(Rat X, Rat Y){
+    int N, D;
+     N = X.numerator * Y.denominator + Y.numerator * X.denominator;
+    D = X.denominator * Y.denominator;
+    Rat NewR;
+    NewR = new Rat(N, D);
+    return NewR;}
+
+    public static Rat operator +(Rat X, int y){
+    Rat Y = new Rat(y);
+    int N, D;
+     N = X.numerator * Y.denominator + Y.numerator * X.denominator;
+    D = X.denominator * Y.denominator;
+    Rat NewR;
+    NewR = new Rat(N, D);
+    return NewR;}
+
+    public static Rat operator +(int x, Rat Y){
+    Rat X = new Rat(x);
     int N, D;
      N = X.numerator * Y.denominator + Y.numerator * X.denominator;
     D = X.denominator * Y.denominator;
@@ -73,12 +144,74 @@ public class Rat{
     NewR = new Rat(N, D);
     return NewR;
   }
+    
+  public static Rat operator -(int x, Rat Y){
+    Rat X = new Rat(x);
+    int N, D;
+    N = X.numerator * Y.denominator - Y.numerator * X.denominator;
+    D = X.denominator * Y.denominator;
+    Rat NewR;
+    NewR = new Rat(N, D);
+    return NewR;
+  }
+    
+  public static Rat operator -(Rat X, int y){
+    Rat Y = new Rat(y);
+    int N, D;
+    N = X.numerator * Y.denominator - Y.numerator * X.denominator;
+    D = X.denominator * Y.denominator;
+    Rat NewR;
+    NewR = new Rat(N, D);
+    return NewR;
+  }
+
+  public static Rat operator --(Rat X){
+    return X - 1;
+  }
+  
+  public static Rat operator ++(Rat X){
+    return X + 1;
+  }
+
+  public static bool operator ==(Rat X, Rat Y)
+    {
+        return X.numerator == Y.numerator && X.denominator == Y.denominator;
+    }
+
+  public static bool operator ==(int X, Rat Y)
+    {
+        return X == Y.ToDouble();
+    }
+
+  public static bool operator ==(Rat X, int Y)
+    {
+        return X.ToDouble() == Y;
+    }
+  
+  public static bool operator !=(Rat X, Rat Y)
+        {
+          return X.numerator != Y.numerator || X.denominator != Y.denominator;
+          }
+  public static bool operator !=(int X, Rat Y)
+    {
+        return X != Y.ToDouble();
+    }
+
+  public static bool operator !=(Rat X, int Y)
+    {
+        return X.ToDouble() != Y;
+    }
+  
 }
+
+
 
 class Program {
     static void Main(string[] args) {
-        var r1 = new Rat(3, 4);
-        var r2 = new Rat(4);
-        Console.WriteLine(r1 - r2);
+        var r1 = new Rat(20, 6);
+        var r2 = new Rat(7, 3);
+        var r3 = new Rat(9, 3);
+        r2 += 1;
+        Console.WriteLine(r3 != 4);
     }
 }
