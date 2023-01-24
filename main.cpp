@@ -175,7 +175,7 @@ public class Rat{
 
   public static bool operator ==(Rat X, Rat Y)
     {
-        return X.numerator == Y.numerator && X.denominator == Y.denominator;
+        return X.numerator == Y.numerator &&             X.denominator == Y.denominator;
     }
 
   public static bool operator ==(int X, Rat Y)
@@ -190,7 +190,7 @@ public class Rat{
   
   public static bool operator !=(Rat X, Rat Y)
         {
-          return X.numerator != Y.numerator || X.denominator != Y.denominator;
+          return X.numerator != Y.numerator ||             X.denominator != Y.denominator;
           }
   public static bool operator !=(int X, Rat Y)
     {
@@ -202,6 +202,67 @@ public class Rat{
         return X.ToDouble() != Y;
     }
   
+  public static bool operator >(Rat X, Rat Y)
+      {
+        return X.ToDouble() > Y.ToDouble();
+      }
+  
+  public static bool operator >(int X, Rat Y)
+    {
+      return X > Y.ToDouble();
+    }
+
+  public static bool operator >(Rat X, int Y)
+    {
+      return X.ToDouble() > Y;
+    }
+  
+  public static bool operator <(Rat X, Rat Y)
+      {
+        return X.ToDouble() < Y.ToDouble();
+      }
+  
+  public static bool operator <(int X, Rat Y)
+    {
+      return X < Y.ToDouble();
+    }
+
+  public static bool operator <(Rat X, int Y)
+    {
+      return X.ToDouble() < Y;
+    }
+
+  public static bool operator >=(Rat X, Rat Y)
+      {
+        return X.ToDouble() >= Y.ToDouble();
+      }
+  
+  public static bool operator >=(int X, Rat Y)
+    {
+      return X >= Y.ToDouble();
+    }
+
+  public static bool operator >=(Rat X, int Y)
+    {
+      return X.ToDouble() >= Y;
+    }
+
+  public static bool operator <=(Rat X, Rat Y)
+      {
+        return X.ToDouble() <= Y.ToDouble();
+      }
+  
+  public static bool operator <=(int X, Rat Y)
+    {
+      return X <= Y.ToDouble();
+    }
+
+  public static bool operator <=(Rat X, int Y)
+    {
+      return X.ToDouble() <= Y;
+    }
+  
+  
 }
 
 
@@ -209,9 +270,12 @@ public class Rat{
 class Program {
     static void Main(string[] args) {
         var r1 = new Rat(20, 6);
-        var r2 = new Rat(7, 3);
+        var r2 = new Rat(10, 3);
         var r3 = new Rat(9, 3);
-        r2 += 1;
-        Console.WriteLine(r3 != 4);
+        Console.WriteLine(r1 == r2);
+        Console.WriteLine(++r2);
+        Console.WriteLine(r1 >= r3);
+        Console.WriteLine(4 < r1);
+        
     }
 }
